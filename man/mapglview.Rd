@@ -24,12 +24,14 @@ will add the data specified in \code{y} to the map; if \code{x} is \code{sf}, it
 render a new \code{maplibre} map with \code{x} added to it.}
 
 \item{y}{spatial data to add to the map, if \code{x} is already a \code{maplibregl}
-object.}
+object (it's ignored otherwise).}
 
 \item{zcol}{A column name from the data to interpolate colors across.}
 
 \item{base.map.style}{style JSON to pass onto \code{mapgl::maplibre}. Not used if
-the function is being used to add data to an existing map}
+the function is being used to add data to an existing map.
+\code{mapgl::carto_style("dark-matter")}, \code{mapgl::carto_style("positron")}, or
+other.}
 
 \item{include.legend}{Boolean to include legend or not; only relevant if
 \code{zcol} is also specified.}

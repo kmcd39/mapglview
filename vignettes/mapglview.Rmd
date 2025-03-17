@@ -7,18 +7,24 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r, setup, echo= FALSE}
+
+options(tigris_use_cache = TRUE)
+knitr::opts_chunk$set(fig.height = 5)
+
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
 ```
 
-Quick functions to use [**mapgl**](https://github.com/walkerke/mapgl)!
+This package exports `mapglview`, a quick function to link to the  [**mapgl**](https://github.com/walkerke/mapgl) package!
 
+Pull some data:
 
 ```{r quickdemo}
 
+# devtools::install_github("kmcd39/mapglview")
 library(dplyr)
 library(sf)
 library(mapglview)
@@ -28,13 +34,26 @@ plcs <- tigris::places(state = 44
                        ) |> 
   rename_with(tolower)
 
+```
 
-# create a quick map with place boundaries, colored by name
+## First map
+
+Create a quick map with place boundaries, colored by name:
+
+```{r plcs}
+
 plcs |> 
   select(1:5) |> 
   st_boundary() |> 
   mapglview(zcol = "name")
   
+```
+
+## Adding data
+
+Add data by passing an existing map as the first argument and data to add as the second:
+
+```{r ripts}
 
 # also get point data footprints from open street maps/geofabrik
 ri.osm <- osmextract::oe_get(
@@ -46,17 +65,28 @@ ri.osm <- osmextract::oe_get(
 ri.pts <- ri.osm  |> 
   filter(!is.na(man_made))
 
-# add the building footprints by over top map with the place boundaries
+# add the selected point data to mape with place boundaries
 plcs |> 
   st_boundary() |> 
   mapglview(palette = "#FFAACC"
             ,size = 2) |> 
   mapglview(ri.pts
             ,zcol = "man_made")
+```
 
-# with a countinuous variable
+## Continuous variables or no variable
+
+The function adapts for continuous variables or no variable
+
+```{r continuous}
+# or, map with a continuous variable
 plcs |> 
   mapglview(zcol = "aland")
 
+
+# or, no variable
+plcs |> 
+  st_boundary() |> 
+  mapglview()
 
 ```

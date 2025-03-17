@@ -92,10 +92,12 @@ get.breaks <- function(
 #'   will add the data specified in `y` to the map; if `x` is `sf`, it will
 #'   render a new `maplibre` map with `x` added to it.
 #' @param y spatial data to add to the map, if `x` is already a `maplibregl`
-#'   object.
+#'   object (it's ignored otherwise).
 #' @param zcol A column name from the data to interpolate colors across.
 #' @param base.map.style style JSON to pass onto `mapgl::maplibre`. Not used if
-#'   the function is being used to add data to an existing map
+#'   the function is being used to add data to an existing map.
+#'   `mapgl::carto_style("dark-matter")`, `mapgl::carto_style("positron")`, or
+#'   other.
 #' @param include.legend Boolean to include legend or not; only relevant if
 #'   `zcol` is also specified.
 #' @param palette A character vector describing color hex codes from which to
@@ -256,6 +258,7 @@ mapglview <- function(
         ,type =
           "categorical" # i think categorical style is more legible even for continuous data.
         #,unique_id = paste0(layer.name, "-legend")
+        ,position = "bottom-left"
       )
   }
   

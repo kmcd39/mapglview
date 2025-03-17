@@ -17,6 +17,8 @@ Imports:
   grDevices
 Suggests:
     knitr,
+    osmextract,
     rmarkdown,
+    tigris,
     viridis
 VignetteBuilder: knitr
