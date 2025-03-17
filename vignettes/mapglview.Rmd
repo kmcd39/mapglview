@@ -1,0 +1,62 @@
+---
+title: "mapglview"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{mapglview}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Quick functions to use [**mapgl**](https://github.com/walkerke/mapgl)!
+
+
+```{r quickdemo}
+
+library(dplyr)
+library(sf)
+library(mapglview)
+
+# get cities/places in Rhode island
+plcs <- tigris::places(state = 44
+                       ) |> 
+  rename_with(tolower)
+
+
+# create a quick map with place boundaries, colored by name
+plcs |> 
+  select(1:5) |> 
+  st_boundary() |> 
+  mapglview(zcol = "name")
+  
+
+# also get point data footprints from open street maps/geofabrik
+ri.osm <- osmextract::oe_get(
+  place = "us/rhode-island"
+  ,layer = "points"
+  ,provider = "geofabrik"
+)
+
+ri.pts <- ri.osm  |> 
+  filter(!is.na(man_made))
+
+# add the building footprints by over top map with the place boundaries
+plcs |> 
+  st_boundary() |> 
+  mapglview(palette = "#FFAACC"
+            ,size = 2) |> 
+  mapglview(ri.pts
+            ,zcol = "man_made")
+
+# with a countinuous variable
+plcs |> 
+  mapglview(zcol = "aland")
+
+
+```

@@ -1,0 +1,22 @@
+Package: mapglview
+Title: Provides quick mapping functions that link to maplibre gl js, by way of the mapgl package
+Version: 0.0.0.9000
+Authors@R: 
+    person("Kira", "McDonald", , "kira.mcd.99@gmail.com", role = c("aut", "cre"))
+Description: Provides quick mapping functions that link to maplibre gl js, by way of the mapgl package.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Imports:
+  dplyr,
+  glue,
+  mapgl,
+  mapsf,
+  sf,
+  grDevices
+Suggests:
+    knitr,
+    rmarkdown,
+    viridis
+VignetteBuilder: knitr
