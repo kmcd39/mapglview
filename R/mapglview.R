@@ -88,6 +88,7 @@ get.breaks <- function(
 
 #' mapglview
 #'
+#'
 #' @param x An object of class either `maplibregl` or `sf`. If `maplibregl`, it
 #'   will add the data specified in `y` to the map; if `x` is `sf`, it will
 #'   render a new `maplibre` map with `x` added to it.
@@ -137,11 +138,11 @@ mapglview <- function(
   # accordingly; also get name of sf object to name the maplibre layer
   
   if( "maplibregl" %in% class(x) ) { # here, we're starting w a map and adding data
-    layer.name <- deparse(substitute(y))
+    layer.name <- deparse(substitute(y))[1]
     m <- x # |> mapgl::set_style(base.map.style)
     x <- y
   } else if("sf" %in% class(x) ) { # here, we're starting w data and creating the map
-    layer.name <- deparse(substitute(x))
+    layer.name <- deparse(substitute(x))[1]
     m <- 
       mapgl::maplibre(style = base.map.style) |> 
       mapgl::fit_bounds(x)
@@ -160,14 +161,17 @@ mapglview <- function(
   else {
     z <- dplyr::pull(x, zcol) 
     
+    #browser()  
     # categorical z
     if( class(z) %in% c("factor", "character", "logical")) {
-      breaks <- sort(unique(z))
+      # it seems like mapgl can have trouble w factors/logicals? so switch to character.
+      breaks <- sort(unique(z)) |> as.character()
+      x <- x |> mutate(!!rlang::sym(zcol) := as.character(!!rlang::sym(zcol)))
       pal <- grDevices::colorRampPalette(palette)(length(breaks))
       interpolator <- 
         mapgl::match_expr(
           column = zcol
-          ,values = unique(z)
+          ,values = breaks
           ,stops = pal
           ,default = "#cccccc") 
       
