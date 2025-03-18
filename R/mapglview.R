@@ -128,13 +128,14 @@ mapglview <- function(
     #,visual.params = mapglview.defaults #     ,lwd = .1
     ,alpha = .9
     ,size = 5
-    ,before_id = NULL
+    ,before_id = "place_country_2"
 ) {
   
   #browser()
   
   # determine if we're adding to a map or making a new one and begin
-  # accordingly; also get name of sf object to use to name maplibre layer
+  # accordingly; also get name of sf object to name the maplibre layer
+  
   if( "maplibregl" %in% class(x) ) { # here, we're starting w a map and adding data
     layer.name <- deparse(substitute(y))
     m <- x # |> mapgl::set_style(base.map.style)
