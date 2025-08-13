@@ -10,12 +10,13 @@ mapglview(
   zcol = NULL,
   base.map.style = mapgl::carto_style("dark-matter"),
   include.legend = T,
+  layer.name = NULL,
   palette = viridis::viridis(5),
   breaks.method = c("natural", "quantile", "equal"),
   n.breaks = 4,
   alpha = 0.9,
   size = 5,
-  before_id = NULL
+  before_id = "place_country_2"
 )
 }
 \arguments{
@@ -35,6 +36,9 @@ other.}
 
 \item{include.legend}{Boolean to include legend or not; only relevant if
 \code{zcol} is also specified.}
+
+\item{layer.name}{Name for layer. Shows up in legend title. If \code{NULL}, the
+name of the object being mapped will be used.}
 
 \item{palette}{A character vector describing color hex codes from which to
 construct the color palette. Viridis by default. The number of colors

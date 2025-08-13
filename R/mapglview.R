@@ -4,6 +4,7 @@
 #' 
 #' @param sfx An `sf` object for which to create popups
 #' 
+#' @export create.mapglview.popups
 create.mapglview.popups <- function(sfx) {
   
   # Get all attribute names
@@ -26,7 +27,7 @@ create.mapglview.popups <- function(sfx) {
 
 
 
-#' get.breaks
+#' get.mapglview.breaks
 #'
 #' A flexible function to internally get breaks according to a given style.
 #' 
@@ -35,7 +36,8 @@ create.mapglview.popups <- function(sfx) {
 #' 
 #' @importFrom mapsf mf_get_breaks
 #' 
-get.breaks <- function(
+#' @export get.mapglview.breaks
+get.mapglview.breaks <- function(
     z
     ,breaks.method = c("natural", "quantile", "equal")
     ,n.breaks = 4
@@ -101,6 +103,8 @@ get.breaks <- function(
 #'   other.
 #' @param include.legend Boolean to include legend or not; only relevant if
 #'   `zcol` is also specified.
+#' @param layer.name Name for layer. Shows up in legend title. If `NULL`, the
+#'   name of the object being mapped will be used.
 #' @param palette A character vector describing color hex codes from which to
 #'   construct the color palette. Viridis by default. The number of colors
 #'   provided doesn't have to match the number of breaks produced.
@@ -123,6 +127,7 @@ mapglview <- function(
     , zcol = NULL
     , base.map.style = mapgl::carto_style("dark-matter")
     , include.legend = T
+    , layer.name = NULL
     , palette = viridis::viridis(5)
     , breaks.method = c("natural", "quantile", "equal")
     , n.breaks = 4
@@ -138,11 +143,19 @@ mapglview <- function(
   # accordingly; also get name of sf object to name the maplibre layer
   
   if( "maplibregl" %in% class(x) ) { # here, we're starting w a map and adding data
-    layer.name <- deparse(substitute(y))[1]
+    layer.name <- 
+      ifelse( is.null(layer.name)
+              ,deparse(substitute(y))[1]
+              ,as.character(layer.name)
+              )
     m <- x # |> mapgl::set_style(base.map.style)
     x <- y
   } else if("sf" %in% class(x) ) { # here, we're starting w data and creating the map
-    layer.name <- deparse(substitute(x))[1]
+    layer.name <- 
+      ifelse( is.null(layer.name)
+               ,deparse(substitute(y))[1]
+               ,as.character(layer.name)
+      )
     m <- 
       mapgl::maplibre(style = base.map.style) |> 
       mapgl::fit_bounds(x)
