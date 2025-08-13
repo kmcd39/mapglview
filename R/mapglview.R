@@ -5,6 +5,7 @@
 #' @param sfx An `sf` object for which to create popups
 #' 
 #' @export create.mapglview.popups
+#' 
 create.mapglview.popups <- function(sfx) {
   
   # Get all attribute names
@@ -37,6 +38,7 @@ create.mapglview.popups <- function(sfx) {
 #' @importFrom mapsf mf_get_breaks
 #' 
 #' @export get.mapglview.breaks
+#' 
 get.mapglview.breaks <- function(
     z
     ,breaks.method = c("natural", "quantile", "equal")
@@ -190,7 +192,7 @@ mapglview <- function(
       
     # continuous z
     } else if( class(z) %in% c("numeric", "integer")) {
-      breaks <- get.breaks(z, breaks.method, n.breaks)
+      breaks <- get.mapglview.breaks(z, breaks.method, n.breaks)
       pal <- grDevices::colorRampPalette(palette)(length(breaks))
       interpolator <- 
         mapgl::interpolate(
