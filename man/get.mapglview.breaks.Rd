@@ -7,7 +7,8 @@
 get.mapglview.breaks(
   z,
   breaks.method = c("natural", "quantile", "equal"),
-  n.breaks = 4
+  n.breaks = 4,
+  ...
 )
 }
 \arguments{

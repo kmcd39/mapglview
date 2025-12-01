@@ -20,6 +20,7 @@ ri.pts |> nrow()
 
 # install.packages("mapgl")
 
+
 m1 <- mapgl::maplibre(
   ) |> 
   mapgl::fit_bounds(plcs) |> 
@@ -59,10 +60,11 @@ plcs <- st_transform(plcs, st_crs(ri.pts))
 
 
 
-
-
+devtools::load_all()
+debug(mapglview)
+undebug(mapglview)
 mapglview(
-  filter(ri.pts , !is.na(man_made) ) |> 
+  x =filter(ri.pts , !is.na(man_made) ) |> 
     select(-other_tags)
   ,zcol = "man_made"
 )

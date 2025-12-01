@@ -11,12 +11,10 @@ mapglview(
   base.map.style = mapgl::carto_style("dark-matter"),
   include.legend = T,
   layer.name = NULL,
-  palette = viridis::viridis(5),
-  breaks.method = c("natural", "quantile", "equal"),
-  n.breaks = 4,
   alpha = 0.9,
   size = 5,
-  before_id = "place_country_2"
+  before_id = "place_country_2",
+  ...
 )
 }
 \arguments{
@@ -40,17 +38,6 @@ other.}
 \item{layer.name}{Name for layer. Shows up in legend title. If \code{NULL}, the
 name of the object being mapped will be used.}
 
-\item{palette}{A character vector describing color hex codes from which to
-construct the color palette. Viridis by default. The number of colors
-provided doesn't have to match the number of breaks produced.}
-
-\item{breaks.method}{How to create breaks in legend & interpolation if \code{zcol}
-is specified and is a continuous variable. One of \code{natural}, \code{quantile}, or
-\code{equal}. \code{natural} uses kmeans clustering.}
-
-\item{n.breaks}{The number of breaks to include in the legend, for continuous
-variables.}
-
 \item{alpha}{Layer opacity}
 
 \item{size}{For lines or circles, linewidth or circle radius, respectively.
@@ -58,7 +45,21 @@ Ignored for polygons.}
 
 \item{before_id}{Name of layer to position the new layer ontop of; passed
 onto the add layer call.}
+
+\item{...}{
+  Arguments passed on to \code{\link[=get.mapglview.breaks]{get.mapglview.breaks}}, \code{\link[=get.mapgl.interpolator]{get.mapgl.interpolator}}
+  \describe{
+    \item{\code{z}}{A continuous vector from which to generate breaks}
+    \item{\code{breaks.method}}{How to create breaks in legend & interpolation if \code{zcol}
+is specified and is a continuous variable. One of \code{natural}, \code{quantile}, or
+\code{equal}. \code{natural} uses kmeans clustering.}
+    \item{\code{n.breaks}}{The number of breaks to include in the legend, for continuous
+variables.}
+    \item{\code{palette}}{A character vector describing color hex codes from which to
+construct the color palette. Viridis by default. The number of colors
+provided doesn't have to match the number of breaks produced.}
+  }}
 }
 \description{
-mapglview
+Wrapper to quickly make a map using \code{mapgl}
 }
